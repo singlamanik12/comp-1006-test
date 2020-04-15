@@ -1,24 +1,23 @@
 <?php
 
-  // Our database connection
-  include('./.env.php');
-  $conn = mysqli_connect(getenv('DB_HOST'), getenv('DB_USER'), getenv('DB_PASS'), getenv('DB'));
+   // Our database connection
+   include('./.env.php');
 
-  var_dump($_POST);
+   $conn = mysqli_connect(getenv(DB_HOST), getenv(DB_USER), getenv(DB_PASS), getenv(DB));
 
-  // Updating our new row into the countries table
-  $res = mysqli_query($conn, "UPDATE countries SET
-    name = '{$_POST['name']}',
-    description = '{$_POST['description']}',
-    population = {$_POST['population']}
-  WHERE id = {$_POST['id']}");
+ var_dump($_POST);
 
-  if ($res) {
-    // We were successful
-    echo "The country was updated successfully.";
-  } else {
-    // We failed
-    echo "There was an error updating the record: " . mysqli_error($conn);
-  }
+ $sql = "UPDATE countries SET 
+         name = '{$_POST['name']}',
+         description = '{$_POST['price']}'
+         WHERE id = {$_POST['id']}";
+ $res = mysqli_query($conn, $sql);
+
+ if($res){
+     echo "The country was updated successfully";
+ }
+ else{
+     echo "There was an error updating the row beacause: ". mysqli_error($conn);
+ }
 
 ?>

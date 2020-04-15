@@ -1,34 +1,30 @@
 <?php
 
-  // Our database connection
   include('./.env.php');
-  $conn = mysqli_connect(getenv('DB_HOST'), getenv('DB_USER'), getenv('DB_PASS'), getenv('DB'));
 
-  var_dump($_POST);
+  // Our database connection
+  $conn = mysqli_connect(getenv(DB_HOST), getenv(DB_USER), getenv(DB_PASS), getenv(DB));
+  $sql = "INSERT INTO countries (name,description,population) VALUES ('{$_POST['name']}',
+  '{$_POST['description']}',
+  {$_POST['population']})";
+  // echo $sql;
 
-  // Inserting our new row into the countries table
-  $res = mysqli_query($conn, "INSERT INTO countries (
-    name,
-    description,
-    population
-  ) VALUES (
-    '{$_POST['name']}',
-    '{$_POST['description']}',
-    {$_POST['population']}
-  )");
+  // Querry our database providing our connection and our SQL
+  $res = mysqli_query($conn, $sql);
 
-  // Initialize/resume the session
+  // Resume the session 
   session_start();
 
-  if ($res) {
-    // We were successful
-    $_SESSION['notification'] = "The new country was created successfully.";
-  } else {
-    // We failed
-    $_SESSION['notification'] = "There was an error creating the record: " . mysqli_error($conn);
+  if($res){
+      // We're successful
+      $_SESSION['notification'] = "New country created successfully.";
   }
-
-  header("Location: ./notification.php");
-  exit;
-
+  else{
+      // We failed Misserably
+      $_SESSION['notification'] = "There was an error creating this country: " . mysqli_error($conn);
+  }
+  // redirect to the notification.php page 
+  header("Location: notification.php");
+  die;
+  
 ?>

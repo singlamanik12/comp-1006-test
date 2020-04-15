@@ -1,16 +1,17 @@
 <?php
 
-  session_start();
+ // Resume the session 
+ session_start();
+ // Redirect user if there is no notifications
+ if(empty($_SESSION{['notification']})) {
+     header("Location: table.php");
+     die;
+ }
 
-  // Redirect a user if there is no notification
-  if (empty($_SESSION['notification'])) {
-    header("Location: table.php");
-    exit;
-  }
+ // output our notification 
+ echo $_SESSION['notification'];
 
-  echo $_SESSION['notification'];
-
-  // Clear the notification
-  unset($_SESSION['notification']);
+ // clear the notification 
+ unset($_SESSION['notification']);
 
 ?>
